@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Health Tracker</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+   /* CSS for aligning form tables and enhancing appearance */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  background-color: #333;
+  color: #fff;
+  padding: 20px;
+  text-align: center;
+}
+
+h1 {
+  margin: 0;
+}
+
+.trk {
+  max-width: 700px;
+  margin: 20px auto;
+  padding: 20px;
+  background: rgb(92, 152, 247,0.4) ;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+form {
+  margin-top: 20px;
+}
+
+table {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+table td {
+  padding: 10px;
+}
+
+label {
+  display: inline-block;
+  width: 150px;
+  font-weight: bold;
+  
+}
+
+input[type="text"],
+input[type="number"],
+input[type="date"],input[type="email"],
+select,textarea {
+  width: calc(100% - 50px);
+  padding: 8px;
+  border-radius: 10px;
+  border: #4488f5 3px solid;
+  box-sizing: border-box;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #1871ff;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+
+}
+button:hover {
+  background-color: #4488f5;
+}
+
+
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Health Tracker</h1>
+    <nav style="padding-left: 42%;">
+      <ul>
+        <li><a href="home.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="login.html">Logout</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main class="trk">
+    <form action="http://localhost/api/save.php" method="POST">
+     
+          <table id="patientForm">
+        <tr>
+          <td><label for="name">Patient Name:</label></td>
+          <td><input type="text" id="name" name="name" required></td>
+        </tr>
+        <tr>
+          <td><label for="age">Age:</label></td>
+          <td><input type="number" id="age" name="age" required></td>
+        </tr>
+        <tr>
+          <td><label for="gender">Gender:</label></td>
+          <td>
+            <select id="gender" name="gender" required>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td><label for="email">Email:</label></td>
+          <td><input type="email" id="email" name="email" required></td>
+        </tr>
+        <tr>
+          <td><label for="phone">Phone:</label></td>
+          <td><input type="number" id="phone" name="phone" required></td>
+        </tr>
+        <tr>
+          <td><label for="address">Address:</label></td>
+          <td><textarea id="address" name="address" rows="3" required></textarea></td>
+        </tr>
+        </table>
+  
+        <table id="bpForm">
+        <tr>
+    
+          <td><label for="bp-day">BP Day:</label></td>
+          <td><input type="text" id="bp-day" name="bp_day" required></td>
+        </tr>
+        <tr>
+          <td><label for="bp-date">BP Date:</label></td>
+          <td><input type="date" id="bp-date" name="bp_date" required></td>
+        </tr>
+        <tr>
+          <td><label for="systolic">Systolic:</label></td>
+          <td><input type="number" id="systolic" name="systolic" required></td>
+        </tr>
+        <tr>
+          <td><label for="diastolic">Diastolic:</label></td>
+          <td><input type="number" id="diastolic" name="diastolic" required></td>
+        </tr>
+      </table>
+      <table id="waterForm">        <tr>
+          <td><label for="water-day">Water Day:</label></td>
+          <td><input type="text" id="water-day" name="water_day" required></td>
+        </tr>
+        <tr>
+          <td><label for="water-date">Water Date:</label></td>
+          <td><input type="date" id="water-date" name="water_date" required></td>
+        </tr>
+        <tr>
+          <td><label for="water-intake">Water Intake (ml):</label></td>
+          <td><input type="number" id="water-intake" name="water_intake" required></td>
+        </tr>
+      </table>
+      <table id="dietForm"> 
+        <tr>
+          <td><label for="diet-day">Diet Day:</label></td>
+          <td><input type="text" id="diet-day" name="diet_day" required></td>
+        </tr>
+        <tr>
+          <td><label for="diet-date">Diet Date:</label></td>
+          <td><input type="date" id="diet-date" name="diet_date" required></td>
+        </tr>
+        <tr>
+          <td><label for="calories">Calories:</label></td>
+          <td><input type="number" id="calories" name="calories" required></td>
+        </tr>
+      </table>
+    <table id="sleepForm">
+        <tr>
+          <td><label for="sleep-day">Sleep Day:</label></td>
+          <td><input type="text" id="sleep-day" name="sleep_day" required></td>
+        </tr>
+        <tr>
+          <td><label for="sleep-date">Sleep Date:</label></td>
+          <td><input type="date" id="sleep-date" name="sleep_date" required></td>
+        </tr>
+        <tr>
+          <td><label for="duration">Sleep Duration (hours):</label></td>
+          <td><input type="number" id="duration" name="duration" required></td>
+        </tr>
+      </table>
+      <button type="submit" >Save</button>
+    </form>
+  </main>
+ 
+</body>
+</html>

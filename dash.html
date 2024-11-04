@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Health Dashboard</title>
+  <link rel="stylesheet" href="styles.css"> <!-- Example stylesheet -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Chart.js library -->
+</head>
+<body>
+  <header>
+    <h1>Health Dashboard</h1>
+    <nav style="padding-left: 42%;">
+      <ul>
+        <li><a href="home.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+    
+        <li><a href="login.html">Logout</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main>
+    <section id="patient-details">
+      <h2>Patient Details</h2>
+      <table id="patient-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Gender</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Address</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Patient details will be dynamically populated here -->
+        </tbody>
+      </table>
+    </section>
+
+    <section id="health-data">
+      <h2>Health Data</h2>
+      <div class="chart-container">
+      <canvas id="bp-chart" width="400" height="200"></canvas>
+      <canvas id="water-chart" width="400" height="200"></canvas>
+    </div>
+  <div class="chart-container">
+      <canvas id="diet-chart" width="400" height="200"></canvas>
+      <canvas id="sleep-chart" width="400" height="200"></canvas>
+    </div>
+    </section>
+  </main>
+
+  <script>
+    fetch('http://localhost/api/fetch.php')
+      .then(response => response.json())
+      .then(data => {
+        // Display patient details in table
+        const patientTable = document.getElementById('patient-table');
+        const patientDetails = data.patients;
+        patientDetails.forEach(patient => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${patient.name}</td>
+            <td>${patient.age}</td>
+            <td>${patient.gender}</td>
+            <td>${patient.email}</td>
+            <td>${patient.phone}</td>
+            <td>${patient.address}</td>
+          `;
+          patientTable.appendChild(row);
+        });
+
+        // Extract health data for charts
+        const healthData = data.health_data;
+
+        // Blood Pressure Chart
+        const bpData = healthData.blood_pressure;
+        const bpDates = bpData.map(entry => entry.date);
+        const bpSystolic = bpData.map(entry => entry.systolic);
+        const bpDiastolic = bpData.map(entry => entry.diastolic);
+        const bpChartCanvas = document.getElementById('bp-chart').getContext('2d');
+        const bpChart = new Chart(bpChartCanvas, {
+          type: 'bar',
+          data: {
+            labels: bpDates,
+            datasets: [{
+              label: 'Systolic (mmHg)',
+              data: bpSystolic,
+              backgroundColor: 'rgba(255, 99, 132, 0.5)',
+              borderColor: 'rgba(255, 99, 132, 1)',
+              borderWidth: 1
+            }, {
+              label: 'Diastolic (mmHg)',
+              data: bpDiastolic,
+              backgroundColor: 'rgba(54, 162, 235, 0.5)',
+              borderColor: 'rgba(54, 162, 235, 1)',
+              borderWidth: 1
+            }]
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true
+              }
+            }
+          }
+        });
+
+        // Water Intake Chart
+        const waterData = healthData.water_intake;
+        const waterDates = waterData.map(entry => entry.date);
+        const waterML = waterData.map(entry => entry.ml);
+        const waterChartCanvas = document.getElementById('water-chart').getContext('2d');
+        const waterChart = new Chart(waterChartCanvas, {
+          type: 'bar',
+          data: {
+            labels: waterDates,
+            datasets: [{
+              label: 'Water Intake (ml)',
+              data: waterML,
+              backgroundColor: 'rgba(75, 192, 192, 0.5)',
+              borderColor: 'rgba(75, 192, 192, 1)',
+              borderWidth: 1
+            }]
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true
+              }
+            }
+          }
+        });
+
+        // Diet Chart
+        const dietData = healthData.diet;
+        const dietDates = dietData.map(entry => entry.date);
+        const dietCalories = dietData.map(entry => entry.calories);
+        const dietChartCanvas = document.getElementById('diet-chart').getContext('2d');
+        const dietChart = new Chart(dietChartCanvas, {
+          type: 'bar',
+          data: {
+            labels: dietDates,
+            datasets: [{
+              label: 'Calories Consumed',
+              data: dietCalories,
+              backgroundColor: 'rgba(255, 206, 86, 0.5)',
+              borderColor: 'rgba(255, 206, 86, 1)',
+              borderWidth: 1
+            }]
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true
+              }
+            }
+          }
+        });
+
+        // Sleep Duration Chart
+        const sleepData = healthData.sleep;
+        const sleepDates = sleepData.map(entry => entry.date);
+        const sleepHours = sleepData.map(entry => entry.duration);
+        const sleepChartCanvas = document.getElementById('sleep-chart').getContext('2d');
+        const sleepChart = new Chart(sleepChartCanvas, {
+          type: 'bar',
+          data: {
+            labels: sleepDates,
+            datasets: [{
+              label: 'Sleep Duration (hours)',
+              data: sleepHours,
+              backgroundColor: 'rgba(153, 102, 255, 0.5)',
+              borderColor: 'rgba(153, 102, 255, 1)',
+              borderWidth: 1
+            }]
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true
+              }
+            }
+          }
+        });
+      })
+      .catch(error => console.error('Error fetching data:', error));
+  </script>
+</body>
+</html>
